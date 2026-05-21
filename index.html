@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multi Media Toolkit Download</title>
+  <link rel="icon" href="./favicon.ico" sizes="any" />
+  <style>
+    body {
+      margin: 0;
+      padding: 28px;
+      background: #f4f6f8;
+      color: #111827;
+      font-family: "Segoe UI", "Malgun Gothic", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #d8dee6;
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+    }
+
+    .desc {
+      margin: 0 0 22px;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid #d8dee6;
+      padding: 12px;
+      text-align: left;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+    }
+
+    .tag {
+      display: inline-block;
+      min-width: 54px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .tag.latest {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .tag.stable {
+      background: #dcfce7;
+      color: #047857;
+    }
+
+    .tag.test {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    a.download {
+      display: inline-block;
+      min-width: 92px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: #0ea5e9;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a.download:hover {
+      background: #0284c7;
+    }
+
+    .empty {
+      padding: 18px;
+      border: 1px solid #d8dee6;
+      background: #fff;
+      color: #6b7280;
+    }
+
+    @media (max-width: 680px) {
+      body { padding: 12px; }
+      main { padding: 16px; }
+      table, thead, tbody, tr, th, td { display: block; }
+      thead { display: none; }
+      tr { border: 1px solid #d8dee6; margin-bottom: 10px; }
+      td { border: 0; border-bottom: 1px solid #eef2f7; }
+      td:last-child { border-bottom: 0; }
+      td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 4px;
+        color: #6b7280;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      a.download { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Multi Media Toolkit &#45796;&#50868;&#47196;&#46300;</h1>
+    <p class="desc">
+      &#54596;&#50836;&#54620; &#48260;&#51204;&#51012; &#49440;&#53469;&#54644;&#49436; &#45796;&#50868;&#47196;&#46300;&#54616;&#49464;&#50836;.
+      &#52572;&#49888; &#48260;&#51204;&#51060; &#47928;&#51228;&#44032; &#51080;&#51004;&#47732; &#48177;&#50629; &#48260;&#51204;&#51012; &#49324;&#50857;&#54616;&#47732; &#46121;&#45768;&#45796;.
+    </p>
+    <div id="version-area" class="empty">&#48260;&#51204; &#47785;&#47197;&#51012; &#48520;&#47084;&#50724;&#45716; &#51473;&#51077;&#45768;&#45796;.</div>
+  </main>
+
+  <script src="./versions.js"></script>
+  <script>
+    const area = document.getElementById("version-area");
+    const DEFAULT_VERSIONS = [
+      {
+        type: "latest",
+        version: "1.3.0",
+        note: "\uD604\uC7AC \uCD5C\uC2E0 \uBC84\uC804\uC785\uB2C8\uB2E4.",
+        file: "files/MMT_Setup_v1.3.0.exe"
+      },
+      {
+        type: "backup",
+        version: "1.2.2",
+        note: "\uBB38\uC81C\uAC00 \uC788\uC744 \uB54C \uB418\uB3CC\uB9B4 \uC218 \uC788\uB294 \uBC31\uC5C5 \uBC84\uC804\uC785\uB2C8\uB2E4.",
+        file: "files/MMT_Setup_v1.2.2.exe"
+      },
+      {
+        type: "backup",
+        version: "1.2.0",
+        note: "\uC548\uC815 \uBC84\uC804\uC774 \uD544\uC694\uD560 \uB54C \uBC1B\uC744 \uC218 \uC788\uB294 \uC608\uC804 \uBC84\uC804\uC785\uB2C8\uB2E4.",
+        file: "files/MMT_Setup_v1.2.0.exe"
+      }
+    ];
+
+    function tagClass(type) {
+      if (type === "latest") return "latest";
+      if (type === "stable") return "stable";
+      if (type === "test") return "test";
+      return "";
+    }
+
+    function tagText(type) {
+      if (type === "latest") return "\uCD5C\uC2E0";
+      if (type === "stable") return "\uC548\uC815";
+      if (type === "test") return "\uD14C\uC2A4\uD2B8";
+      if (type === "backup") return "\uBC31\uC5C5";
+      return "\uAE30\uD0C0";
+    }
+
+    function render(items) {
+      if (!items.length) {
+        area.className = "empty";
+        area.textContent = "\uB4F1\uB85D\uB41C \uB2E4\uC6B4\uB85C\uB4DC \uD30C\uC77C\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.";
+        return;
+      }
+
+      area.className = "";
+      area.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>\uAD6C\uBD84</th>
+              <th>\uBC84\uC804</th>
+              <th>\uC124\uBA85</th>
+              <th>\uD30C\uC77C</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${items.map(item => `
+              <tr>
+                <td data-label="\uAD6C\uBD84"><span class="tag ${tagClass(item.type)}">${tagText(item.type)}</span></td>
+                <td data-label="\uBC84\uC804">${item.version || "-"}</td>
+                <td data-label="\uC124\uBA85">${item.note || ""}</td>
+                <td data-label="\uD30C\uC77C"><a class="download" href="${item.file || "#"}">\uB2E4\uC6B4\uB85C\uB4DC</a></td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    render(Array.isArray(window.MMT_VERSIONS) ? window.MMT_VERSIONS : DEFAULT_VERSIONS);
+  </script>
+</body>
+</html>
