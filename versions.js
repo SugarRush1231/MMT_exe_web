@@ -1,8 +1,14 @@
 window.MMT_VERSIONS = [
 {
         type: "latest",
-        version: "1.3.1",
+        version: "1.3.2",
         note: "\uD604\uC7AC \uCD5C\uC2E0 \uBC84\uC804\uC785\uB2C8\uB2E4.",
+        file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.2/MMT_Setup_v1.3.2.exe"
+      },
+      {
+        type: "backup",
+        version: "1.3.1",
+        note: "안정된 버전: 문제가 있을 때 되돌릴 수 있는 백업 버전입니다.",
         file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.1/MMT_Setup_v1.3.1.exe"
       },
       {
