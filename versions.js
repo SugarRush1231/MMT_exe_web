@@ -8,7 +8,7 @@ window.MMT_VERSIONS = [
   {
         type: "latest",
         version: "1.3.2",
-        note: "안정된 버전: 문제가 있을 때 되돌릴 수 있는 백업 버전입니다.(치지직 다시보기 다운로드 오류)",
+        note: "안정된 버전: 문제가 있을 때 되돌릴 수 있는 백업 버전입니다.(치지직 다시보기 다운로드 오류 & 설정에서만 업데이트 가능한 버그)",
         file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.2/MMT_Setup_v1.3.2.exe"
       },
       {
