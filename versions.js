@@ -1,33 +1,39 @@
 window.MMT_VERSIONS = [
-{
+  {
         type: "latest",
-        version: "1.3.3",
+        version: "1.3.4",
         note: "\uD604\uC7AC \uCD5C\uC2E0 \uBC84\uC804\uC785\uB2C8\uB2E4.",
+        file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.4/MMT_Setup_v1.3.4.exe"
+      },
+{
+        type: "backup",
+        version: "1.3.3",
+        note: "문제가 있을 때 되돌릴 수 있는 백업 버전입니다.",
         file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.3/MMT_Setup_v1.3.3.exe"
       },
   {
-        type: "latest",
+        type: "backup",
         version: "1.3.2",
-        note: "안정된 버전: 문제가 있을 때 되돌릴 수 있는 백업 버전입니다.(치지직 다시보기 다운로드 오류 & 설정에서만 업데이트 가능한 버그)",
+        note: "문제가 있을 때 되돌릴 수 있는 백업 버전입니다.(치지직 다시보기 다운로드 오류 & 설정에서만 업데이트 가능한 버그)",
         file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.2/MMT_Setup_v1.3.2.exe"
       },
       {
         type: "backup",
         version: "1.3.1",
-        note: "안정된 버전: 문제가 있을 때 되돌릴 수 있는 백업 버전입니다.(facebook 영상 다운 안되는 버전)",
+        note: "문제가 있을 때 되돌릴 수 있는 백업 버전입니다.(facebook 영상 다운 안되는 버전)",
         file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.1/MMT_Setup_v1.3.1.exe"
       },
       {
         type: "backup",
         version: "1.3.0",
-        note: "안정된 버전: 문제가 있을 때 되돌릴 수 있는 백업 버전입니다.",
+        note: "문제가 있을 때 되돌릴 수 있는 백업 버전입니다.",
         file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.0/MMT_Setup_v1.3.0.exe"
       },
       {
         type: "backup",
         version: "1.2.2",
         // note: "\uBB38\uC81C\uAC00 \uC788\uC744 \uB54C \uB418\uB3CC\uB9B4 \uC218 \uC788\uB294 \uBC31\uC5C5 \uBC84\uC804\uC785\uB2C8\uB2E4.",
-        note: "안정된 버전: 문제가 있을 때 되돌릴 수 있는 백업 버전입니다.",
+        note: "문제가 있을 때 되돌릴 수 있는 백업 버전입니다.",
         file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.2.2/MMT_Setup_v1.2.2.exe"
       },
       {
