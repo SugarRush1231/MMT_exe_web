@@ -1,8 +1,14 @@
 window.MMT_VERSIONS = [
   {
         type: "latest",
-        version: "1.3.4",
+        version: "1.3.5",
         note: "\uD604\uC7AC \uCD5C\uC2E0 \uBC84\uC804\uC785\uB2C8\uB2E4.",
+        file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.5/MMT_Setup_v1.3.5.exe"
+      },
+  {
+        type: "backup",
+        version: "1.3.4",
+        note: "유튜브 정보 확인에 문제가 생길 수 있으니 다른 버전을 이용하길 권장 드립니다.",
         file: "https://github.com/SugarRush1231/Multi_Media_Toolkit/releases/download/v1.3.4/MMT_Setup_v1.3.4.exe"
       },
 {
