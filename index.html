@@ -6,6 +6,11 @@
   <title>Multi Media Toolkit Download</title>
   <link rel="icon" href="./favicon.ico" sizes="any" />
   <style>
+    html {
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+    }
+
     body {
       margin: 0;
       padding: 28px;
@@ -34,11 +39,21 @@
       line-height: 1.6;
     }
 
+    .table-slot {
+      width: 100%;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
       background: #fff;
     }
+
+    col.col-type { width: 11%; }
+    col.col-version { width: 6%; }
+    col.col-note { width: 67%; }
+    col.col-file { width: 16%; }
 
     th, td {
       border: 1px solid #d8dee6;
@@ -145,6 +160,9 @@
     @media (max-width: 680px) {
       body { padding: 12px; }
       main { padding: 16px; }
+      .table-slot { min-height: 0 !important; }
+      table { table-layout: auto; }
+      colgroup { display: none; }
       table, thead, tbody, tr, th, td { display: block; }
       thead { display: none; }
       tr { border: 1px solid #d8dee6; margin-bottom: 10px; }
@@ -263,7 +281,9 @@
     }
 
     const ITEMS_PER_PAGE = 10;
+    const PAGE_BUTTONS_PER_GROUP = 10;
     let currentPage = 1;
+    let fullPageTableHeight = 0;
 
     function sortByNewest(items) {
       return [...items].sort((a, b) =>
@@ -293,7 +313,14 @@
 
       area.className = "";
       area.innerHTML = `
+        <div class="table-slot">
         <table>
+          <colgroup>
+            <col class="col-type">
+            <col class="col-version">
+            <col class="col-note">
+            <col class="col-file">
+          </colgroup>
           <thead>
             <tr>
               <th>\uAD6C\uBD84</th>
@@ -313,8 +340,11 @@
             `).join("")}
           </tbody>
         </table>
+        </div>
         ${renderPagination(totalPages)}
       `;
+
+      syncTableSlotHeight(pageItems);
 
       area.querySelectorAll("[data-page]").forEach(button => {
         button.addEventListener("click", () => {
@@ -323,11 +353,38 @@
       });
     }
 
+    function syncTableSlotHeight(pageItems) {
+      const slot = area.querySelector(".table-slot");
+      const table = slot ? slot.querySelector("table") : null;
+
+      if (!slot || !table) return;
+
+      if (window.innerWidth <= 680) {
+        slot.style.minHeight = "";
+        return;
+      }
+
+      const tableHeight = Math.ceil(table.getBoundingClientRect().height);
+
+      // 10개가 꽉 찬 페이지의 표 높이를 기준 높이로 기억합니다.
+      if (pageItems.length === ITEMS_PER_PAGE) {
+        fullPageTableHeight = Math.max(fullPageTableHeight, tableHeight);
+      }
+
+      if (fullPageTableHeight > 0) {
+        slot.style.minHeight = `${fullPageTableHeight}px`;
+      }
+    }
+
     function renderPagination(totalPages) {
       if (totalPages <= 1) return "";
 
-      const pageButtons = Array.from({ length: totalPages }, (_, index) => {
-        const page = index + 1;
+      const groupStart = Math.floor((currentPage - 1) / PAGE_BUTTONS_PER_GROUP) * PAGE_BUTTONS_PER_GROUP + 1;
+      const groupEnd = Math.min(groupStart + PAGE_BUTTONS_PER_GROUP - 1, totalPages);
+      const pageCount = groupEnd - groupStart + 1;
+
+      const pageButtons = Array.from({ length: pageCount }, (_, index) => {
+        const page = groupStart + index;
         return `
           <button type="button" data-page="${page}" class="${page === currentPage ? "active" : ""}" ${page === currentPage ? 'aria-current="page"' : ""}>
             ${page}
@@ -335,11 +392,14 @@
         `;
       }).join("");
 
+      const previousGroupPage = Math.max(1, groupStart - 1);
+      const nextGroupPage = groupEnd + 1;
+
       return `
         <nav class="pagination" aria-label="\uD398\uC774\uC9C0 \uC774\uB3D9">
-          <button type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? "disabled" : ""}>\uC774\uC804</button>
+          <button type="button" data-page="${previousGroupPage}" ${groupStart === 1 ? "disabled" : ""}>\uC774\uC804</button>
           ${pageButtons}
-          <button type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? "disabled" : ""}>\uB2E4\uC74C</button>
+          <button type="button" data-page="${nextGroupPage}" ${groupEnd === totalPages ? "disabled" : ""}>\uB2E4\uC74C</button>
         </nav>
       `;
     }
