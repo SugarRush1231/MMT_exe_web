@@ -103,6 +103,45 @@
       color: #6b7280;
     }
 
+    .pagination {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 18px;
+    }
+
+    .pagination button {
+      min-width: 38px;
+      height: 38px;
+      padding: 0 10px;
+      border: 1px solid #d8dee6;
+      border-radius: 6px;
+      background: #fff;
+      color: #374151;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .pagination button:hover:not(:disabled):not(.active) {
+      background: #f1f5f9;
+    }
+
+    .pagination button.active {
+      border-color: #0ea5e9;
+      background: #0ea5e9;
+      color: #fff;
+      cursor: default;
+    }
+
+    .pagination button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
     @media (max-width: 680px) {
       body { padding: 12px; }
       main { padding: 16px; }
@@ -223,12 +262,34 @@
       return "\uAE30\uD0C0";
     }
 
-    function render(items) {
-      if (!items.length) {
+    const ITEMS_PER_PAGE = 10;
+    let currentPage = 1;
+
+    function sortByNewest(items) {
+      return [...items].sort((a, b) =>
+        String(b.version || "").localeCompare(String(a.version || ""), undefined, {
+          numeric: true,
+          sensitivity: "base"
+        })
+      );
+    }
+
+    const versions = sortByNewest(
+      Array.isArray(window.MMT_VERSIONS) ? window.MMT_VERSIONS : DEFAULT_VERSIONS
+    );
+
+    function render(page = 1) {
+      if (!versions.length) {
         area.className = "empty";
         area.textContent = "\uB4F1\uB85D\uB41C \uB2E4\uC6B4\uB85C\uB4DC \uD30C\uC77C\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.";
         return;
       }
+
+      const totalPages = Math.ceil(versions.length / ITEMS_PER_PAGE);
+      currentPage = Math.min(Math.max(page, 1), totalPages);
+
+      const start = (currentPage - 1) * ITEMS_PER_PAGE;
+      const pageItems = versions.slice(start, start + ITEMS_PER_PAGE);
 
       area.className = "";
       area.innerHTML = `
@@ -242,7 +303,7 @@
             </tr>
           </thead>
           <tbody>
-            ${items.map(item => `
+            ${pageItems.map(item => `
               <tr>
                 <td data-label="\uAD6C\uBD84"><span class="tag ${tagClass(item.type)}">${tagText(item.type)}</span></td>
                 <td data-label="\uBC84\uC804">${item.version || "-"}</td>
@@ -252,10 +313,38 @@
             `).join("")}
           </tbody>
         </table>
+        ${renderPagination(totalPages)}
+      `;
+
+      area.querySelectorAll("[data-page]").forEach(button => {
+        button.addEventListener("click", () => {
+          render(Number(button.dataset.page));
+        });
+      });
+    }
+
+    function renderPagination(totalPages) {
+      if (totalPages <= 1) return "";
+
+      const pageButtons = Array.from({ length: totalPages }, (_, index) => {
+        const page = index + 1;
+        return `
+          <button type="button" data-page="${page}" class="${page === currentPage ? "active" : ""}" ${page === currentPage ? 'aria-current="page"' : ""}>
+            ${page}
+          </button>
+        `;
+      }).join("");
+
+      return `
+        <nav class="pagination" aria-label="\uD398\uC774\uC9C0 \uC774\uB3D9">
+          <button type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? "disabled" : ""}>\uC774\uC804</button>
+          ${pageButtons}
+          <button type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? "disabled" : ""}>\uB2E4\uC74C</button>
+        </nav>
       `;
     }
 
-    render(Array.isArray(window.MMT_VERSIONS) ? window.MMT_VERSIONS : DEFAULT_VERSIONS);
+    render(1);
   </script>
 </body>
 </html>
